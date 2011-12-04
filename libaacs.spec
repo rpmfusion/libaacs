@@ -1,24 +1,35 @@
+%global snapshot 0
 %global tarball_date 20111105
 %global git_hash 876f45a3f727eb6f06cdb2b0128f857226346e59
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.2
+Version:        0.3.0
+%if %{snapshot}
 Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
+%else
+Release:        1%{?dist}
+%endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.videolan.org/developers/libaacs.html
-# No release yet. Use the commands below to generate a tarball.
+%if %{snapshot}
+# Use the commands below to generate a tarball.
 # git clone git://git.videolan.org/libaacs.git
 # cd libaacs
 # git archive --format=tar %{git_hash} --prefix=libaacs/ | bzip2 > ../libaacs-$( date +%Y%m%d )git%{git_short}.tar.bz2
 Source0:        %{name}-%{tarball_date}git%{git_short}.tar.bz2
+%else
+Source0:        ftp://ftp.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+%endif
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
+%if %{snapshot}
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
+%endif
 
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
@@ -40,12 +51,18 @@ developing applications that use %{name}.
 
 
 %prep
+%if %{snapshot}
 %setup -q -n %{name}
+%else
+%setup -q
+%endif
 sed -i -e 's/\r//' KEYDB.cfg
 
 
 %build
+%if %{snapshot}
 autoreconf -vif
+%endif
 %configure --disable-static
 make %{?_smp_mflags}
 
@@ -67,7 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING KEYDB.cfg README.txt
+%doc COPYING KEYDB.cfg
 %{_libdir}/*.so.*
 
 
@@ -79,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 02 2011 Xavier Bachelot <xavier@bachelot.org> 0.3.0-1
+- First official upstream release.
+
 * Sat Nov 05 2011 Xavier Bachelot <xavier@bachelot.org> 0.2-0.3.20111105git876f45a3f727e
 - Update to latest snapshot.
 
