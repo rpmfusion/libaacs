@@ -4,7 +4,7 @@
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.3.1
+Version:        0.4.0
 %if %{snapshot}
 Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
 %else
@@ -86,6 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc COPYING KEYDB.cfg ChangeLog README.txt
 %{_libdir}/*.so.*
+%{_bindir}/aacs_info
 
 
 %files devel
@@ -96,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 07 2012 Xavier Bachelot <xavier@bachelot.org> 0.4.0-1
+- Update to 0.4.0.
+
 * Thu Mar 22 2012 Xavier Bachelot <xavier@bachelot.org> 0.3.1-1
 - Update to 0.3.1.
 
