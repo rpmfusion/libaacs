@@ -4,7 +4,7 @@
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.4.0
+Version:        0.5.0
 %if %{snapshot}
 Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
 %else
@@ -33,7 +33,7 @@ BuildRequires:  libtool
 
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
-BuildRequires:  bison
+BuildRequires:  byacc
 
 
 %description
@@ -97,6 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 03 2012 Xavier Bachelot <xavier@bachelot.org> 0.5.0-1
+- Update to 0.5.0.
+- Use byacc instead of bison, libaacs doesn't build with bison 2.6.1.
+
 * Mon May 07 2012 Xavier Bachelot <xavier@bachelot.org> 0.4.0-1
 - Update to 0.4.0.
 
