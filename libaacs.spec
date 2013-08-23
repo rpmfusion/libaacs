@@ -8,7 +8,7 @@ Version:        0.6.0
 %if %{snapshot}
 Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
 %else
-Release:        1%{?dist}
+Release:        2%{?dist}
 %endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -34,6 +34,7 @@ BuildRequires:  libtool
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
 BuildRequires:  bison
+BuildRequires:  chrpath
 
 
 %description
@@ -71,6 +72,7 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+chrpath --delete $RPM_BUILD_ROOT%{_bindir}/aacs_info
 
 
 %clean
@@ -97,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Aug 21 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-2
+- Fix rpath issue with aacs_info.
+
 * Mon Mar 04 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-1
 - Update to 0.6.0.
 - Switch back to bison.
