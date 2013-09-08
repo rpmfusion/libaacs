@@ -8,7 +8,7 @@ Version:        0.6.0
 %if %{snapshot}
 Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
 %else
-Release:        2%{?dist}
+Release:        3%{?dist}
 %endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -34,7 +34,6 @@ BuildRequires:  libtool
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
 BuildRequires:  bison
-BuildRequires:  chrpath
 
 
 %description
@@ -65,6 +64,8 @@ sed -i -e 's/\r//' KEYDB.cfg
 autoreconf -vif
 %endif
 %configure --disable-static
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
 
 
@@ -72,7 +73,6 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
-chrpath --delete $RPM_BUILD_ROOT%{_bindir}/aacs_info
 
 
 %clean
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 08 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-3
+- Better rpath fix.
+
 * Wed Aug 21 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-2
 - Fix rpath issue with aacs_info.
 
