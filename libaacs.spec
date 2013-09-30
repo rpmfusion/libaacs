@@ -6,9 +6,9 @@
 Name:           libaacs
 Version:        0.6.0
 %if %{snapshot}
-Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
+Release:        0.4.%{tarball_date}git%{git_short}%{?dist}
 %else
-Release:        3%{?dist}
+Release:        4%{?dist}
 %endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.6.0-4
+- Rebuilt
+
 * Sun Sep 08 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-3
 - Better rpath fix.
 
