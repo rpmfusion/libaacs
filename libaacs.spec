@@ -1,24 +1,35 @@
+%global snapshot 0
 %global tarball_date 20111105
 %global git_hash 876f45a3f727eb6f06cdb2b0128f857226346e59
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.2
-Release:        0.3.%{tarball_date}git%{git_short}%{?dist}
+Version:        0.7.0
+%if %{snapshot}
+Release:        0.4.%{tarball_date}git%{git_short}%{?dist}
+%else
+Release:        2%{?dist}
+%endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.videolan.org/developers/libaacs.html
-# No release yet. Use the commands below to generate a tarball.
+%if %{snapshot}
+# Use the commands below to generate a tarball.
 # git clone git://git.videolan.org/libaacs.git
 # cd libaacs
 # git archive --format=tar %{git_hash} --prefix=libaacs/ | bzip2 > ../libaacs-$( date +%Y%m%d )git%{git_short}.tar.bz2
 Source0:        %{name}-%{tarball_date}git%{git_short}.tar.bz2
+%else
+Source0:        ftp://ftp.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+%endif
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
+%if %{snapshot}
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
+%endif
 
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
@@ -27,6 +38,15 @@ BuildRequires:  bison
 
 %description
 This library is an open implementation of the AACS specification.
+
+
+%package utils
+Summary:        Test utilities for %{name}
+Group:          Development/Libraries
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description utils
+The %{name}-utils package contains test utilities for %{name}.
 
 
 %package        devel
@@ -40,13 +60,21 @@ developing applications that use %{name}.
 
 
 %prep
+%if %{snapshot}
 %setup -q -n %{name}
+%else
+%setup -q
+%endif
 sed -i -e 's/\r//' KEYDB.cfg
 
 
 %build
+%if %{snapshot}
 autoreconf -vif
+%endif
 %configure --disable-static
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
 
 
@@ -67,9 +95,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING KEYDB.cfg README.txt
+%doc COPYING KEYDB.cfg ChangeLog README.txt
 %{_libdir}/*.so.*
 
+%files utils
+%defattr(-,root,root,-)
+%{_bindir}/aacs_info
 
 %files devel
 %defattr(-,root,root,-)
@@ -79,6 +110,38 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-2
+- Move test utilities to their own subpackage to avoid potential multilib conflict.
+
+* Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-1
+- Update to 0.7.0.
+
+* Mon Sep 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.6.0-4
+- Rebuilt
+
+* Sun Sep 08 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-3
+- Better rpath fix.
+
+* Wed Aug 21 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-2
+- Fix rpath issue with aacs_info.
+
+* Mon Mar 04 2013 Xavier Bachelot <xavier@bachelot.org> 0.6.0-1
+- Update to 0.6.0.
+- Switch back to bison.
+
+* Mon Sep 03 2012 Xavier Bachelot <xavier@bachelot.org> 0.5.0-1
+- Update to 0.5.0.
+- Use byacc instead of bison, libaacs doesn't build with bison 2.6.1.
+
+* Mon May 07 2012 Xavier Bachelot <xavier@bachelot.org> 0.4.0-1
+- Update to 0.4.0.
+
+* Thu Mar 22 2012 Xavier Bachelot <xavier@bachelot.org> 0.3.1-1
+- Update to 0.3.1.
+
+* Fri Dec 02 2011 Xavier Bachelot <xavier@bachelot.org> 0.3.0-1
+- First official upstream release.
+
 * Sat Nov 05 2011 Xavier Bachelot <xavier@bachelot.org> 0.2-0.3.20111105git876f45a3f727e
 - Update to latest snapshot.
 
