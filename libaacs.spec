@@ -8,7 +8,7 @@ Version:        0.7.0
 %if %{snapshot}
 Release:        0.4.%{tarball_date}git%{git_short}%{?dist}
 %else
-Release:        1%{?dist}
+Release:        2%{?dist}
 %endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -38,6 +38,15 @@ BuildRequires:  bison
 
 %description
 This library is an open implementation of the AACS specification.
+
+
+%package utils
+Summary:        Test utilities for %{name}
+Group:          Development/Libraries
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description utils
+The %{name}-utils package contains test utilities for %{name}.
 
 
 %package        devel
@@ -88,8 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc COPYING KEYDB.cfg ChangeLog README.txt
 %{_libdir}/*.so.*
-%{_bindir}/aacs_info
 
+%files utils
+%defattr(-,root,root,-)
+%{_bindir}/aacs_info
 
 %files devel
 %defattr(-,root,root,-)
@@ -99,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-2
+- Move test utilities to their own subpackage to avoid potential multilib conflict.
+
 * Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-1
 - Update to 0.7.0.
 
