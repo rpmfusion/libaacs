@@ -8,7 +8,7 @@ Version:        0.7.0
 %if %{snapshot}
 Release:        0.5.%{tarball_date}git%{git_short}%{?dist}
 %else
-Release:        2%{?dist}
+Release:        3%{?dist}
 %endif
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Apr 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 0.7.0-2
+* Sat Apr 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 0.7.0-3
 - Rebuilt for libgcrypt
 
 * Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-2
