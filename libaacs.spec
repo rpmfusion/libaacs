@@ -6,7 +6,7 @@
 Name:           libaacs
 Version:        0.7.0
 %if %{snapshot}
-Release:        0.4.%{tarball_date}git%{git_short}%{?dist}
+Release:        0.5.%{tarball_date}git%{git_short}%{?dist}
 %else
 Release:        2%{?dist}
 %endif
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Apr 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 0.7.0-2
+- Rebuilt for libgcrypt
+
 * Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-2
 - Move test utilities to their own subpackage to avoid potential multilib conflict.
 
