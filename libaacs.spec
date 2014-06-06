@@ -4,8 +4,8 @@
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.7.0
-Release:        4%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Version:        0.7.1
+Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
@@ -19,8 +19,6 @@ Source0:        %{name}-%{tarball_date}git%{git_short}.tar.bz2
 %else
 Source0:        ftp://ftp.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 %endif
-# http://git.videolan.org/gitweb.cgi/libaacs.git/?p=libaacs.git;a=patch;h=cbc200ffc454b142f5def611cac607997f7983e5
-Patch0:         libaacs-0.7.0-libgcrypt_1.6_support.patch
 
 %if 0%{?snapshot}
 BuildRequires:  autoconf
@@ -62,7 +60,6 @@ developing applications that use %{name}.
 %else
 %setup -q
 %endif
-%patch0 -p1 -b .libgcrypt-1.6
 sed -i -e 's/\r//' KEYDB.cfg
 
 
@@ -100,6 +97,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Jun 04 2014 Xavier Bachelot <xavier@bachelot.org> 0.7.1-1
+- Update to 0.7.1.
+
 * Sat Apr 26 2014 Xavier Bachelot <xavier@bachelot.org> 0.7.0-4
 - Add patch for libgcrypt 1.6 support.
 - Tweak the Release: tag to accomodate rpmdev-bumpspec.
