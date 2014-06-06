@@ -1,20 +1,16 @@
-%global snapshot 0
+#global snapshot 1
 %global tarball_date 20111105
 %global git_hash 876f45a3f727eb6f06cdb2b0128f857226346e59
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.7.0
-%if %{snapshot}
-Release:        0.4.%{tarball_date}git%{git_short}%{?dist}
-%else
-Release:        2%{?dist}
-%endif
+Version:        0.7.1
+Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.videolan.org/developers/libaacs.html
-%if %{snapshot}
+%if 0%{?snapshot}
 # Use the commands below to generate a tarball.
 # git clone git://git.videolan.org/libaacs.git
 # cd libaacs
@@ -23,9 +19,8 @@ Source0:        %{name}-%{tarball_date}git%{git_short}.tar.bz2
 %else
 Source0:        ftp://ftp.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 %endif
-BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-%if %{snapshot}
+%if 0%{?snapshot}
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
@@ -60,7 +55,7 @@ developing applications that use %{name}.
 
 
 %prep
-%if %{snapshot}
+%if 0%{?snapshot}
 %setup -q -n %{name}
 %else
 %setup -q
@@ -69,7 +64,7 @@ sed -i -e 's/\r//' KEYDB.cfg
 
 
 %build
-%if %{snapshot}
+%if 0%{?snapshot}
 autoreconf -vif
 %endif
 %configure --disable-static
@@ -79,13 +74,8 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 
 %post -p /sbin/ldconfig
@@ -94,22 +84,30 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
-%defattr(-,root,root,-)
 %doc COPYING KEYDB.cfg ChangeLog README.txt
 %{_libdir}/*.so.*
 
 %files utils
-%defattr(-,root,root,-)
 %{_bindir}/aacs_info
 
 %files devel
-%defattr(-,root,root,-)
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/libaacs.pc
 
 
 %changelog
+* Wed Jun 04 2014 Xavier Bachelot <xavier@bachelot.org> 0.7.1-1
+- Update to 0.7.1.
+
+* Sat Apr 26 2014 Xavier Bachelot <xavier@bachelot.org> 0.7.0-4
+- Add patch for libgcrypt 1.6 support.
+- Tweak the Release: tag to accomodate rpmdev-bumpspec.
+- Modernize specfile.
+
+* Sat Apr 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 0.7.0-3
+- Rebuilt for libgcrypt
+
 * Thu Dec 19 2013 Xavier Bachelot <xavier@bachelot.org> 0.7.0-2
 - Move test utilities to their own subpackage to avoid potential multilib conflict.
 
