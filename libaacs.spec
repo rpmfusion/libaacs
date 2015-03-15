@@ -4,7 +4,7 @@
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.8.0
+Version:        0.8.1
 Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
@@ -97,6 +97,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sun Mar 15 2015 Xavier Bachelot <xavier@bachelot.org> 0.8.1-1
+- Update to 0.8.1.
+
 * Tue Jan 27 2015 Xavier Bachelot <xavier@bachelot.org> 0.8.0-1
 - Update to 0.8.0.
 
