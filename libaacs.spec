@@ -5,7 +5,7 @@
 
 Name:           libaacs
 Version:        0.8.1
-Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}.1
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
@@ -19,6 +19,9 @@ Source0:        %{name}-%{tarball_date}git%{git_short}.tar.bz2
 %else
 Source0:        ftp://ftp.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 %endif
+# Fix build with libgcrypt < 1.6.0
+# http://git.videolan.org/gitweb.cgi/libaacs.git/?p=libaacs.git;a=patch;h=7f61e3f0124e0b4f4acc5555a90910cf29aac9e4
+Patch0:         libaacs.git-7f61e3f0124e0b4f4acc5555a90910cf29aac9e4.patch
 
 %if 0%{?snapshot}
 BuildRequires:  autoconf
@@ -60,6 +63,9 @@ developing applications that use %{name}.
 %else
 %setup -q
 %endif
+# Fix build with libgcrypt < 1.6.0
+%patch0 -p1
+
 sed -i -e 's/\r//' KEYDB.cfg
 
 
@@ -97,6 +103,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Mar 16 2015 Xavier Bachelot <xavier@bachelot.org> 0.8.1-1.1
+- Fix build with libgcrypt < 1.6.0.
+
 * Sun Mar 15 2015 Xavier Bachelot <xavier@bachelot.org> 0.8.1-1
 - Update to 0.8.1.
 

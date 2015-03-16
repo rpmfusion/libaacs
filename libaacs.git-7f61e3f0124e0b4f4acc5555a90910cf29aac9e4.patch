@@ -1,0 +1,24 @@
+From 7f61e3f0124e0b4f4acc5555a90910cf29aac9e4 Mon Sep 17 00:00:00 2001
+From: Xavier Bachelot <xavier@bachelot.org>
+Date: Sun, 15 Mar 2015 22:34:31 +0100
+Subject: [PATCH] errno.h is needed when using pthread
+
+---
+ src/libaacs/crypto.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/libaacs/crypto.c b/src/libaacs/crypto.c
+index 57e8702..1294366 100644
+--- a/src/libaacs/crypto.c
++++ b/src/libaacs/crypto.c
+@@ -38,6 +38,7 @@
+ #ifdef HAVE_PTHREAD_H
+ #if GCRYPT_VERSION_NUMBER < 0x010600
+ #include <pthread.h>
++#include <errno.h>
+ #endif
+ #endif
+ 
+-- 
+1.7.10.4
+
