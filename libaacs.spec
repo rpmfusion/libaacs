@@ -5,7 +5,7 @@
 
 Name:           libaacs
 Version:        0.8.1
-Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Release:        2%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
@@ -97,6 +97,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sun Mar 15 2015 Xavier Bachelot <xavier@bachelot.org> 0.8.1-1
 - Update to 0.8.1.
 
