@@ -5,7 +5,7 @@
 
 Name:           libaacs
 Version:        0.9.0
-Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Release:        2%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 Group:          System Environment/Libraries
 License:        LGPLv2+
@@ -98,6 +98,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Tue May 16 2017 Xavier Bachelot <xavier@bachelot.org> 0.9.0-1
 - Update to 0.9.0.
 
