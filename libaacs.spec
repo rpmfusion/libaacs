@@ -5,9 +5,8 @@
 
 Name:           libaacs
 Version:        0.9.0
-Release:        3%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Release:        4%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
-Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.videolan.org/developers/libaacs.html
 %if 0%{?snapshot}
@@ -26,6 +25,7 @@ BuildRequires:  automake
 BuildRequires:  libtool
 %endif
 
+BuildRequires:  gcc
 BuildRequires:  libgcrypt-devel
 BuildRequires:  flex
 BuildRequires:  bison
@@ -37,7 +37,6 @@ This library is an open implementation of the AACS specification.
 
 %package utils
 Summary:        Test utilities for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description utils
@@ -46,7 +45,6 @@ The %{name}-utils package contains test utilities for %{name}.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
@@ -78,9 +76,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 
 %files
@@ -98,6 +94,11 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Fri Jul 20 2018 Xavier Bachelot <xavier@bachelot.org> 0.9.0-4
+- Add BR: gcc.
+- Use %%ldconfig_scriptlets.
+- Remove Group:s.
+
 * Thu Mar 01 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 0.9.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
