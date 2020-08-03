@@ -4,7 +4,7 @@
 %global git_short %(echo '%{git_hash}' | cut -c -13)
 
 Name:           libaacs
-Version:        0.10.0
+Version:        0.11.0
 Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 License:        LGPLv2+
@@ -80,20 +80,23 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %files
-%doc KEYDB.cfg ChangeLog README.txt
+%doc KEYDB.cfg ChangeLog README.md
 %license COPYING 
-%{_libdir}/*.so.*
+%{_libdir}/libaacs.so.0*
 
 %files utils
 %{_bindir}/aacs_info
 
 %files devel
 %{_includedir}/*
-%{_libdir}/*.so
+%{_libdir}/libaacs.so
 %{_libdir}/pkgconfig/libaacs.pc
 
 
 %changelog
+* Mon Aug 03 2020 Xavier Bachelot <xavier@bachelot.org> 0.11.0-1
+- Update to 0.11.0
+
 * Mon May 11 2020 Leigh Scott <leigh123linux@gmail.com> - 0.10.0-1
 - Update to 0.10.0
 
