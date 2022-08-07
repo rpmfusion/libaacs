@@ -5,7 +5,7 @@
 
 Name:           libaacs
 Version:        0.11.1
-Release:        1%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
+Release:        2%{?snapshot:.%{tarball_date}git%{git_short}}%{?dist}
 Summary:        Open implementation of AACS specification
 License:        LGPLv2+
 URL:            http://www.videolan.org/developers/libaacs.html
@@ -94,6 +94,10 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sun Aug 07 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild and ffmpeg
+  5.1
+
 * Tue Mar 01 2022 Xavier Bachelot <xavier@bachelot.org> 0.11.1-1
 - Update to 0.11.1
 
